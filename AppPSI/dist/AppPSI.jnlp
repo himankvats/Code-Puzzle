@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="AppPSI.jar" size="21822" download="eager" />
+    <jar href="AppPSI.jar" size="22530" download="eager" />
     <jar href="lib/Broker.jar" size="47040" download="eager" />
     <jar href="lib/ECJ.jar" size="817228" download="eager" />
     <jar href="lib/PSI2.jar" size="46527" download="eager" />

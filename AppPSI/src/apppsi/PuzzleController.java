@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package apppsi;
 
 import java.net.URL;
@@ -41,8 +36,11 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
 import org.problets.lib.comm.rmi.Fragment;
 import org.problets.lib.comm.rmi.ParsonsBrokerProxy;
+import org.problets.lib.comm.rmi.ParsonsEvaluation;
 import org.problets.lib.comm.rmi.ParsonsPuzzle;
 //import org.problets.lib.comm.rmi.ParsonsRelayClient;
 import org.problets.lib.comm.rmi.ParsonsRelayServerInterface;
@@ -52,7 +50,7 @@ import org.problets.lib.comm.rmi.ParsonsRelayServerInterface;
  *
  * @author himankvats
  */
-public class PuzzleController extends MainController implements Initializable  {
+public class PuzzleController extends MainController implements Initializable {
 
     private ObservableList<String> itemsTemp;
     private static Text txt = new Text();
@@ -61,7 +59,7 @@ public class PuzzleController extends MainController implements Initializable  {
     List<String> list = new ArrayList<String>();
     private static List<Integer> OriginalOrder = new ArrayList<Integer>();
 
-    int attempt = 0;
+    double attempt = 0;
     long startTime;
     long totalTimeStart;
     long totalTimeEnd;
@@ -105,6 +103,8 @@ public class PuzzleController extends MainController implements Initializable  {
     @FXML
     private Button exit;
 
+    private int genotypeHashValue;
+
     public String getUn() {
         return un;
     }
@@ -139,50 +139,18 @@ public class PuzzleController extends MainController implements Initializable  {
         }
     }
 
-    private void connector() {
-//       try{
-//           System.out.println("/n /n /n /n AT PuzzleController -connector /n /n /n /n");
-//       
-//        int intport = Integer.valueOf(getPn());
-//        proxy = new ParsonsBrokerProxy(hn, intport, "", 0);
-//        System.out.println("\n \n Before SetStudentID \n \n");
-//        proxy.setStudentID(un);
-//        System.out.println("\n \n After SetStudentID \n \n");
-//        }
-//       catch(Exception e){
-//          
-//           System.out.println("AT CATCH ERROR");
-//           e.printStackTrace();
-//       }
-//        int intport = Integer.valueOf(getPn());
-//        while (proxy==null){
-//            try{
-//                System.out.println("AT try");
-//                proxy = new ParsonsBrokerProxy(hn, intport, "", 0);
-//                proxy.setStudentID(un);
-//                System.out.println("Before wait or exit ");
-//                waitOrExit();
-//                
-//            }
-//            catch(Exception e){
-//                System.out.println("AT catch");
-//            }
-//        }
-//
-//    
-    }
-
     long retValue = 0;
     private long userID = 1;
     private ParsonsRelayClient rmiClient;
     private Object client = null;
+    int intport;
 
-    private void connector1() throws Exception {
-        int intport = Integer.valueOf(getPn());
+    private void connector() throws Exception {
+        intport = Integer.valueOf(getPn());
         userID = 0;
         try {
             rmiClient = new ParsonsRelayClient();
-            userID=rmiClient.getStudentID(un, hn, intport);
+            userID = rmiClient.getStudentID(un, hn, intport);
         } catch (RemoteException ex) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Connection Error");
@@ -193,29 +161,6 @@ public class PuzzleController extends MainController implements Initializable  {
         }
     }
 
-//    private void initClient(String hostName, int portNum, String serviceName, int maxConnectAttempts) {
-//        int connectAttempts = 0;
-//        client = null;
-//        while (client == null && connectAttempts < maxConnectAttempts) {
-//            try {
-//                Registry r = LocateRegistry.getRegistry(hostName, portNum);
-//                connectAttempts++;
-//                client = (Object) r.lookup(serviceName);
-//
-//            } catch (RemoteException e) {
-//
-//            } catch (NotBoundException e) {
-//                e.printStackTrace();
-//                waitOrExit();
-//                client = null;
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                waitOrExit();
-//                client = null;
-//            }
-//        }
-//    }
-
     /**
      * Initializes the controller class.
      */
@@ -224,40 +169,7 @@ public class PuzzleController extends MainController implements Initializable  {
         System.out.println("\n \n \n \n AT PuzzleController -initialize \n \n \n \n");
         submitButton.setDisable(true);
         nextButton.setDisable(true);
-        quitButton.setDisable(true);
-//        startconnection();
-
-        //        try{
-//            synchronized(proxy){
-//                System.out.println("Proxy value "+proxy);
-//                active=true;
-//                if (proxy!=null){
-//                    System.out.println("Connection success");
-//                }
-//                else{
-//                    
-//                    Alert alert = new Alert(AlertType.ERROR);
-//                    alert.setTitle("Connection Error");
-//                    alert.setHeaderText(null);
-//                    alert.setContentText("Please check the details and try again!!!");
-//                    alert.showAndWait();
-//                    AppPSI.getNavigation().load(LoginController.URL_FXML).Show();
-//                }
-//            } 
-//        }
-//        catch(Throwable e){
-//            e.printStackTrace();
-//        }
-//        try {
-//        } catch (Throwable ex) {
-//            if(proxy==null){Alert alert = new Alert(AlertType.ERROR);
-//            alert.setTitle("Connection Error");
-//            alert.setHeaderText(null);
-//            alert.setContentText("Please check the details and try again!!!");
-//            alert.showAndWait();
-//            AppPSI.getNavigation().load(LoginController.URL_FXML).Show();
-//            }
-//        }
+//        quitButton.setDisable(true);
     }
 
     private void createMap() {
@@ -270,6 +182,39 @@ public class PuzzleController extends MainController implements Initializable  {
     @FXML
     private void handleQuitButtonAction(ActionEvent event) {
 //        System.exit(0);
+            attempt++;
+            giveUp=true;
+            endTime = System.currentTimeMillis();
+            setevaluvationdata(attempt, elapsedMillis, giveUp);
+          // Load new Puzzle
+          Alert alert = new Alert(AlertType.INFORMATION);
+          alert.setTitle("Gave Up");
+          alert.setContentText("Try new Puzzle by clicking on OK");
+          alert.setHeaderText(null);
+//         alert.initModality(Modality.APPLICATION_MODAL); /* *** */
+//         alert.initStyle(StageStyle.TRANSPARENT);
+//         
+          alert.showAndWait();
+//          problemCode.clear();
+          DisplayPuzzle();
+    }
+    
+    private void setevaluvationdata(double someValues, long timeInMillis, boolean gaveUp){
+        DateFormat timeFormat = new SimpleDateFormat("mm:ss");
+	ParsonsEvaluation eval = new ParsonsEvaluation();
+        eval.setStudentID(userID);
+	eval.setHashValue(genotypeHashValue);
+	eval.setFitness(someValues);
+	eval.setTimeTaken(timeInMillis);
+	eval.setGaveUp(gaveUp);
+        try
+		{
+                    rmiClient.setParsonsEvaluation(eval, hn, intport);
+                }
+        catch (Exception e)
+		{
+			e.printStackTrace();
+		}
     }
 
     @FXML
@@ -282,19 +227,15 @@ public class PuzzleController extends MainController implements Initializable  {
             System.out.println("Equal");
             endTime = System.currentTimeMillis();
             elapsedMillis = endTime - startTime;
-//                        elapsed = new Date(elapsedMillis);
+            elapsed = new Date(elapsedMillis);
             System.out.println(String.format("\nEvaluation end time: %s", dateFormat.format(endTime)));
-//                        System.out.println(String.format("\nEvaluation elapsed time: %s", timeFormat.format(elapsed)));
+            System.out.println(String.format("\nEvaluation elapsed time: %s", timeFormat.format(elapsed)));
             submitButton.setDisable(true);
             nextButton.setDisable(false);
             System.out.println("Attempts: " + attempt);
-
-            proxy.setParsonsEvaluation((double) attempt, elapsedMillis, giveUp);
+            setevaluvationdata(attempt, elapsedMillis, giveUp);
             attempt = 0;
-            txt.setText("Correct. Please click Next for another round");
-
         } else {
-
             txt.setText("Please retry");
             System.out.println("NotEqual");
         }
@@ -302,33 +243,45 @@ public class PuzzleController extends MainController implements Initializable  {
 
     @FXML
     private void handleNextButtonAction(ActionEvent event) {
+        DisplayPuzzle();
         nextButton.setDisable(true);
-//        startconnection();
     }
 
-    public void startconnection() {
-//        int intport = Integer.valueOf(pn);
-////        System.out.println(intport);
-//        proxy = new ParsonsBrokerProxy(hn, intport, "", 0);
-//        proxy.setStudentID(un);
-//        while (true) {
-//            // Requesting new ParsonsPuzzle from broker
-//            puzzle = proxy.getParsonsPuzzle();
-//            System.out.println("got puzzle");
-//            DisplayPuzzle(puzzle);
-//            break;
-//        }
-    }
-
-    public void DisplayPuzzle(ParsonsPuzzle o) {
+    
+    List<Fragment> fragments;
+    String[] description;
+    String[] title;
+    String[] distractors;
+    ObservableList<String> answerWindowCode=null;
+    ObservableList<String> problemCode=null;
+    ObservableList<String> trashWindowCode=null;
+    public void DisplayPuzzle() {
 //        attempt++;
+        
+        userSpecifiedOrder.clear();
         int co = 0;
         co++;
+        while (true) {
+            try {
+                // Requesting new ParsonsPuzzle from broker
+                puzzle = (ParsonsPuzzle) rmiClient.getParsonsPuzzle(userID, hn, intport);
+                System.out.println("got puzzle");
+                genotypeHashValue = puzzle.getHashValue();
+            } catch (RemoteException ex) {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Connection Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Something Went wrong close the app and re-try \n NOTE THE ERROR: 400-BAD REQUEST");
+                alert.showAndWait();
+            }
+            break;
+        }
         instructiontext.clear();
-        String[] title = o.getTitle();
-        String[] description = o.getDescription();
-        List<Fragment> fragments = o.getPuzzleFragments();
-        String[] distractors = o.getDistractorStrings();
+        title = puzzle.getTitle();
+        description = puzzle.getDescription();
+        fragments =null;
+        fragments = puzzle.getPuzzleFragments();
+        distractors = puzzle.getDistractorStrings();
         instructiontext.appendText("Question: ");
         for (String tmpinst : title) {
             instructiontext.appendText(tmpinst);
@@ -338,11 +291,13 @@ public class PuzzleController extends MainController implements Initializable  {
             instructiontext.appendText(tmpinst);
         }
         int b = 1;
+         list.clear();
         for (Fragment s : fragments) {
-            list.add(s.getLine().toString());
-            System.out.println("List Added successfully " + list.toString());
+            list.add(b +" "  + s.getLine().toString()); // tostring
             System.out.println(b++ + "\t" + s.getLine());
         }
+        System.out.println("List Added successfully " + list.toString());
+        
         createMap();
 
         int count = 0;
@@ -353,7 +308,7 @@ public class PuzzleController extends MainController implements Initializable  {
                 count++;
             }
         }
-
+        OriginalOrder.clear();
         for (int i = 0; i < count; i++) {
             for (int orderCheck = 0; orderCheck < fragments.size(); orderCheck++) {
                 if (fragments.get(orderCheck).getOriginalOrder() == i + 1) {
@@ -362,23 +317,28 @@ public class PuzzleController extends MainController implements Initializable  {
                 }
             }
         }
-        ObservableList<String> answerWindowCode;
-        ObservableList<String> trashWindowCode;
-        ObservableList<String> problemCode;
+        
+
         problemCode = FXCollections.observableArrayList(list);
+        System.out.println("PROBLEMCODE:  " +problemCode.toString());
         answerWindowCode = FXCollections.observableArrayList(new String());
         trashWindowCode = FXCollections.observableArrayList(new String());
+        problemlistview.setItems(null);
+        answerlistview.setItems(null);
+        trashlistview.setItems(null);
         problemlistview.setItems(problemCode);
+        problemlistview.refresh();
         answerlistview.setItems(answerWindowCode);
+        
         trashlistview.setItems(trashWindowCode);
         totalTimeStart = System.currentTimeMillis();
         startTime = System.currentTimeMillis();
         System.out.println(String.format("Evaluation start time: %s", dateFormat.format(startTime)));
-//        answerlistview.setItems(itemsTemp);
         itemsTemp = FXCollections.observableArrayList();
         problemlistview.setCellFactory(param -> new LISTCell());
         answerlistview.setCellFactory(param -> new LISTCell());
         trashlistview.setCellFactory(param -> new LISTCell());
+        
 
     }
 
@@ -389,7 +349,7 @@ public class PuzzleController extends MainController implements Initializable  {
         port.setText(pn);
 
         try {
-            connector1();
+            connector();
         } catch (Exception ex) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Connection Error");
@@ -397,23 +357,25 @@ public class PuzzleController extends MainController implements Initializable  {
             alert.setContentText("Something Went wrong close the app and re-try \n NOTE THE ERROR: 400-BAD REQUEST");
             alert.showAndWait();
         }
+        DisplayPuzzle();
 
-        while (true) {
-            // Requesting new ParsonsPuzzle from broker
-            puzzle = proxy.getParsonsPuzzle();
-            System.out.println("got puzzle");
-            DisplayPuzzle(puzzle);
-            break;
-        }
-    }
-
-    public void handleKeyReleased() {
-        boolean disableButtons = (problemlistview.getAccessibleText().isEmpty());
-        {
-//            submitButton.setDisable(disableButtons);
-//            nextButton.setDisable(disableButtons);
-        }
-
+//        while (true) {
+//            try {
+//                // Requesting new ParsonsPuzzle from broker
+//                puzzle = (ParsonsPuzzle) rmiClient.getParsonsPuzzle(userID, hn, intport);
+//                System.out.println("got puzzle");
+//                genotypeHashValue = puzzle.getHashValue();
+//            } catch (RemoteException ex) {
+//                Alert alert = new Alert(AlertType.ERROR);
+//                alert.setTitle("Connection Error");
+//                alert.setHeaderText(null);
+//                alert.setContentText("Something Went wrong close the app and re-try \n NOTE THE ERROR: 400-BAD REQUEST");
+//                alert.showAndWait();
+//            }
+//
+//            DisplayPuzzle(puzzle);
+//            break;
+//        }
     }
 
     @FXML
@@ -422,8 +384,8 @@ public class PuzzleController extends MainController implements Initializable  {
         totalTimeEnd = System.currentTimeMillis();
         long totaltimeMillies = totalTimeEnd - totalTimeStart;
         totaltime = TimeUnit.MILLISECONDS.toMinutes(totaltimeMillies);
-        //Moving to 3rd view
 
+        //Moving to 3rd view
         ReportController view3 = (ReportController) AppPSI.getNavigation().load(ReportController.URL_FXML);
         view3.setStname(un);
         view3.setHoname(hn);
@@ -436,6 +398,7 @@ public class PuzzleController extends MainController implements Initializable  {
     private class LISTCell extends ListCell<String> {
 
         public LISTCell() {
+            
             addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
                 getListView().requestFocus();
                 if (getListView().getSelectionModel().getSelectedIndices().isEmpty()) {
@@ -446,7 +409,7 @@ public class PuzzleController extends MainController implements Initializable  {
 
             setOnDragDetected(event -> {
                 if (getItem() == null || getItem().isEmpty()) {
-//                    submitButton.setDisable(false);
+                    submitButton.setDisable(false);
                     return;
                 }
                 itemsTemp = getListView().getItems();
@@ -459,9 +422,6 @@ public class PuzzleController extends MainController implements Initializable  {
             });
 
             setOnDragOver(event -> {
-//                if(getListView().getItems().size() ==1 ) {
-//            		System.out.println("hello");
-//            	}
                 if (event.getDragboard().hasString() && !problemlistview.getItems().equals(getListView().getItems())) {
                     event.acceptTransferModes(TransferMode.MOVE);
                 }
@@ -493,10 +453,10 @@ public class PuzzleController extends MainController implements Initializable  {
                     if (thisIdx == -1) {
                         thisIdx = items.size() - 1;
                     }
-
-//                    if(itemsTemp.equals(answerlistview.getItems())) {
-//                       	userSpecifiedOrder.remove(draggedIdx);
-//                    }
+//TESTING COMMENTED LINES
+                    if(itemsTemp.equals(answerlistview.getItems())) {
+                       	userSpecifiedOrder.remove(draggedIdx);
+                    }
                     if (getListView().getItems().equals(answerlistview.getItems())) {
                         int convertedID = thisIdx;
                         if (items.size() > 2 && thisIdx >= (items.size() - 1)) {
@@ -537,115 +497,12 @@ public class PuzzleController extends MainController implements Initializable  {
             super.updateItem(item, empty);
             if (empty || item == null) {
                 setGraphic(null);
+                setText(null);
                 return;
             } else {
                 setText(item);
 
             }
         }
-
-//public LISTCell() {
-//            addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
-//	                getListView().requestFocus();
-//	                    if (getListView().getSelectionModel().getSelectedIndices().isEmpty()) {
-//	                    	getListView().getSelectionModel().clearSelection();
-//	                    }
-//	                    event.consume();
-//	            });
-//            
-//            setOnDragDetected(event -> {
-//                if (getItem() == null || getItem().isEmpty()) {
-//                    return;
-//                }
-//                itemsTemp =getListView().getItems();
-//                Dragboard dragboard = startDragAndDrop(TransferMode.MOVE);
-//                ClipboardContent content = new ClipboardContent();
-//                content.putString(getItem());
-//                dragboard.setContent(content);
-//
-//                event.consume();
-//            });
-//
-//            setOnDragOver(event -> {
-//                if (event.getDragboard().hasString() && !problemlistview.getItems().equals(getListView().getItems())) {
-//                    event.acceptTransferModes(TransferMode.MOVE);
-//                }
-//            });
-//
-//            setOnDragEntered(event -> {
-//                if (event.getDragboard().hasString()) {
-//                    setOpacity(0.3);
-//                }
-//            });
-//
-//            setOnDragExited(event -> {
-//                if (event.getDragboard().hasString()) {
-//                    setOpacity(1);
-//                }
-//            });
-//
-//            setOnDragDropped(event -> {
-//		txt.setText("");
-//		nextButton.setDisable(true);
-//            	System.out.println("DragDropppp");
-//                Dragboard db = event.getDragboard();
-//                boolean success = false;
-//
-//                if (db.hasString()) {
-//                    ObservableList<String> items = getListView().getItems();
-//                    int draggedIdx = itemsTemp.indexOf(db.getString());
-//                    int thisIdx = items.indexOf(getItem());
-//                    if(thisIdx ==-1)
-//                    		thisIdx = items.size()-1;
-//
-//                    if(itemsTemp.equals(answerlistview.getItems())) {
-//                       	userSpecifiedOrder.remove(draggedIdx);
-//                    }
-//                 if(getListView().getItems().equals(answerlistview.getItems())) {
-//                    	int convertedID = thisIdx;
-//                    	if(items.size() >2 && thisIdx >= (items.size()-1)) {
-//                    		convertedID = userSpecifiedOrder.size();
-//                    	}
-//                    	userSpecifiedOrder.add(convertedID, indexWithCodeMapping.get(db.getString()));
-//                    }
-//
-//                    if(items.equals(itemsTemp)) {
-//                    	if(getItem().isEmpty())
-//                    		return;
-//                    	items.add(thisIdx,db.getString());
-//                    	items.remove(draggedIdx);
-//                    } else {
-//                    	items.add(thisIdx, db.getString());
-//                    	itemsTemp.remove(draggedIdx);
-//                    }
-//                    if(problemlistview.getItems().size() == 0) {
-//                    	submitButton.setDisable(false);
-//                    }
-//                    else {
-//                    	submitButton.setDisable(true);
-//                    }
-//
-//                    success = true;
-//                }
-//                event.setDropCompleted(success);
-//
-//                event.consume();
-//            });
-//
-//            setOnDragDone(DragEvent::consume);
-//			 
-//        }
-//        @Override
-//        protected void updateItem(String item, boolean empty) {
-//            super.updateItem(item, empty);
-//            if (empty || item == null) {
-//                setGraphic(null);
-//		return;
-//            } else {
-//		setText(item);
-//
-//            }
-//        }
-//
     }
 }
