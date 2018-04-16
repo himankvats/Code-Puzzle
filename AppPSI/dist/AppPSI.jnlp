@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="AppPSI.jnlp">
+  <information>
+    <title>AppPSI</title>
+    <vendor>himankvats</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="AppPSI.jar" size="21822" download="eager" />
+    <jar href="lib/Broker.jar" size="47040" download="eager" />
+    <jar href="lib/ECJ.jar" size="817228" download="eager" />
+    <jar href="lib/PSI2.jar" size="46527" download="eager" />
+    <jar href="lib/ParsonsProblet.jar" size="47078" download="eager" />
+    <jar href="lib/Relay.jar" size="17278" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="AppPSI" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="apppsi.AppPSI"  name="AppPSI" />
+  <update check="always"/>
+</jnlp>
