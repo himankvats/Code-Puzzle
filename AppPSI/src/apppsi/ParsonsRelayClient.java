@@ -27,7 +27,7 @@ public class ParsonsRelayClient implements ParsonsRelayClientInterface
 	//private Method callback;
 	private Object parent;
 	
-	public ParsonsRelayClient() throws RemoteException
+	public ParsonsRelayClient() throws RemoteException, NotBoundException, MalformedURLException
 	{ 
 		super();
 		//callback = null;
@@ -41,6 +41,7 @@ public class ParsonsRelayClient implements ParsonsRelayClientInterface
 		parent = p;
 	}*/
 	
+        @Override
 	public long getStudentID(String login, String serverHostName, int serverPort) throws RemoteException
     {
     	log(String.format("Calling remote method %s at %s","getStudentID", serverHostName));
@@ -51,46 +52,17 @@ public class ParsonsRelayClient implements ParsonsRelayClientInterface
                 initClient(serverHostName, serverPort, "ParsonsBroker", 10);
             } catch (NotBoundException ex) {
                 Logger.getLogger(ParsonsRelayClient.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(ParsonsRelayClient.class.getName()).log(Level.SEVERE, null, ex);
             }
 		BrokerInterfaceForProblet thisClient = (BrokerInterfaceForProblet)client; 
 		
-		try
-		{
-			//thisClient.registerForCallback(this);
-			retValue = thisClient.getStudentID(login);
-		}
-		catch (RemoteException e)
-		{
-			log("Remote Exception in ParsonsRelayClient getStudentID");
-			e.printStackTrace();
-		}
-		catch (Exception e)
-		{
-			log("Unknown error in ParsonsRelayClient getStudentID");
-			e.printStackTrace();
-		}
 		
 		return (long)retValue;
     }
   
-	public long getStudentID(String login, String serverHostName, int serverPort, String proxyHostName, int proxyPort) throws RemoteException
-    {
-    	log(String.format("Calling remote method %s at %s via proxy %s","getStudentID", serverHostName, proxyHostName));
-		
-		long retValue = 0;
-            try {
-                initClient(proxyHostName, proxyPort, "ParsonsRelayServer", 10);
-            } catch (NotBoundException ex) {
-                Logger.getLogger(ParsonsRelayClient.class.getName()).log(Level.SEVERE, null, ex);
-            }
-		ParsonsRelayServerInterface thisClient = (ParsonsRelayServerInterface)client; 
 	
-		//thisClient.registerForCallback(this);
-		retValue = thisClient.getStudentID(login, serverHostName, serverPort);
-		
-		return (long)retValue;
-    }
-   
+        @Override
     public ParsonsPuzzle getParsonsPuzzle(long userID, String serverHostName, int serverPort) throws RemoteException
 	{
     	log(String.format("Calling remote method %s at %s/%s","getParsonsPuzzle", serverHostName, "ParsonsBroker"));
@@ -99,30 +71,23 @@ public class ParsonsRelayClient implements ParsonsRelayClientInterface
 		
 		while (retValue == null)
 		{
-			try
-                        {
-                            initClient(serverHostName, serverPort, "ParsonsBroker", 10);
+			
+                try {
+                    initClient(serverHostName, serverPort, "ParsonsBroker", 10);
+                } catch (NotBoundException ex) {
+                    Logger.getLogger(ParsonsRelayClient.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(ParsonsRelayClient.class.getName()).log(Level.SEVERE, null, ex);
+                }
                             BrokerInterfaceForProblet thisClient = (BrokerInterfaceForProblet)client;
                             
-                            try
-                            {
+                            
                                 //thisClient.registerForCallback(this);
                                 retValue = thisClient.getParsonsPuzzle(userID);
-                            }
-                            catch (RemoteException e)
-                            {
-                                log("Remote Exception in ParsonsRelayClient getParsonsPuzzle");
-                            }
-                            catch (Exception e)
-                            {
-                                log("Unknown error in ParsonsRelayClient getParsonsPuzzle");
-                                e.printStackTrace();
-                            }
-                        }
-			catch (NotBoundException ex)
-			{
-				Logger.getLogger(ParsonsRelayClient.class.getName()).log(Level.SEVERE, null, ex);
-			}
+                            
+                            
+                        
+			
 		}
 
 		return (ParsonsPuzzle)retValue;
@@ -140,6 +105,7 @@ public class ParsonsRelayClient implements ParsonsRelayClientInterface
 		}
     }
 
+        @Override
 	public ParsonsPuzzle getParsonsPuzzle(long userID,String serverHostName, int serverPort, String proxyHostName, int proxyPort) throws RemoteException
 	{
 		log(String.format("Calling remote method %s at %s via proxy %s", "getParsonsPuzzle", serverHostName, proxyHostName));
@@ -151,6 +117,8 @@ public class ParsonsRelayClient implements ParsonsRelayClientInterface
                     try {
                         initClient(proxyHostName, proxyPort, "ParsonsRelayServer", 10);
                     } catch (NotBoundException ex) {
+                        Logger.getLogger(ParsonsRelayClient.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (MalformedURLException ex) {
                         Logger.getLogger(ParsonsRelayClient.class.getName()).log(Level.SEVERE, null, ex);
                     }
 			ParsonsRelayServerInterface thisClient = (ParsonsRelayServerInterface) client;			
@@ -174,6 +142,7 @@ public class ParsonsRelayClient implements ParsonsRelayClientInterface
 		return (ParsonsPuzzle) retValue;
 	}
     
+        @Override
     public void setParsonsEvaluation(ParsonsEvaluation data, String serverHostName, int serverPort) throws RemoteException
     {
     	log(String.format("Calling remote method %s at %s/%s","setParsonsEvaluation", serverHostName, "ParsonsBroker"));
@@ -185,32 +154,24 @@ public class ParsonsRelayClient implements ParsonsRelayClientInterface
 			try
                         {
                             initClient(serverHostName, serverPort, "ParsonsBroker", 10);
-                            BrokerInterfaceForProblet thisClient = (BrokerInterfaceForProblet)client;
-                            
-                            try
-                            {
-                                //thisClient.registerForCallback(this);
+                            BrokerInterfaceForProblet thisClient = (BrokerInterfaceForProblet)client;                           
+                              //thisClient.registerForCallback(this);
                                 thisClient.setParsonsEvaluation(data);
                                 success = true;
-                            }
-                            catch (RemoteException e)
-                            {
-                                log("Remote Exception in ParsonsRelayClient setParsonsEvaluation");
-                            }
-                            catch (Exception e)
-                            {
-                                log("Unknown error in ParsonsRelayClient setParsonsEvaluation");
-                                e.printStackTrace();
-                                System.exit(0);
-                            }
                         }
 			catch (NotBoundException ex)
 			{
 				Logger.getLogger(ParsonsRelayClient.class.getName()).log(Level.SEVERE, null, ex);
-			}
+			} catch (MalformedURLException ex) {
+                    Logger.getLogger(ParsonsRelayClient.class.getName()).log(Level.SEVERE, null, ex);
+                }
 		}
     }
     
+    
+//not to be used as relay is not in use
+    
+        @Override
     public void setParsonsEvaluation(ParsonsEvaluation data, String serverHostName, int serverPort, String proxyHostName, int proxyPort) throws RemoteException
     {
     	log(String.format("Calling remote method %s at %s via proxy %s","setParsonsEvaluation", serverHostName, proxyHostName));
@@ -229,12 +190,14 @@ public class ParsonsRelayClient implements ParsonsRelayClientInterface
                     success = true;
                 } catch (NotBoundException ex) {
                     Logger.getLogger(ParsonsRelayClient.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MalformedURLException ex) {
+                    Logger.getLogger(ParsonsRelayClient.class.getName()).log(Level.SEVERE, null, ex);
                 }
 			
 		}
     }  
 	
-	private void initClient(String hostName, int portNum, String serviceName, int maxConnectAttempts) throws RemoteException, NotBoundException
+	private void initClient(String hostName, int portNum, String serviceName, int maxConnectAttempts) throws MalformedURLException, RemoteException, NotBoundException
 	{
 		int connectAttempts = 0;
 		client = null;
@@ -242,15 +205,11 @@ public class ParsonsRelayClient implements ParsonsRelayClientInterface
 		log(String.format("initClient called with %s/%s", hostName, serviceName));
 		
 		while(client == null && connectAttempts < maxConnectAttempts)
-		{
-			
-			
+                {               
 				Registry r = LocateRegistry.getRegistry(hostName,portNum);
 				connectAttempts++;
 				client = (Object)r.lookup(serviceName);
 				log(String.format("Found serviceName: %s", serviceName));
-			
-			
 		}
 	}
 	
@@ -259,5 +218,10 @@ public class ParsonsRelayClient implements ParsonsRelayClientInterface
 		System.out.print("[ParsonsRelayClient]\t");
 		System.out.println(msg);
 	}
+        
+        //not to be used as relay is not in use
+    @Override
+    public long getStudentID(String string, String string1, int i, String string2, int i1) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
-
