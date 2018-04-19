@@ -26,8 +26,8 @@ public class AppPSI extends Application {
        
         navigation = new Navigation(stage);
         stage.setTitle("Puzzle Coder");
-        stage.setFullScreen(true);
-        stage.setHeight(600);
+//        stage.setFullScreen(true);
+        stage.setHeight(630);
         stage.setWidth(800);
         stage.show();
         AppPSI.getNavigation().load(LoginController.URL_FXML).Show();

@@ -7,22 +7,26 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apppsi.ReportController">
+<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apppsi.ReportController">
    <children>
       <Label layoutX="205.0" layoutY="46.0" text="Summary" textFill="#4b0ae4">
          <font>
             <Font name="Times New Roman Bold" size="36.0" />
          </font>
       </Label>
-      <Button fx:id="done" layoutX="282.0" layoutY="330.0" mnemonicParsing="false" onAction="#handleDoneButtonAction" text="Done" />
-      <Separator layoutX="304.0" layoutY="100.0" orientation="VERTICAL" prefHeight="200.0" />
-      <Text layoutX="177.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Name" />
-      <Text layoutX="177.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host Name" />
-      <Text layoutX="177.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port Number" />
-      <Text layoutX="177.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Time" />
-      <Text fx:id="studentname" layoutX="333.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text fx:id="hostname" layoutX="333.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text fx:id="port" layoutX="333.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text fx:id="totaltime" layoutX="333.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Button fx:id="done" layoutX="300.0" layoutY="436.0" mnemonicParsing="false" onAction="#handleDoneButtonAction" text="Done" AnchorPane.leftAnchor="301.0" />
+      <Separator layoutX="304.0" layoutY="100.0" orientation="VERTICAL" prefHeight="270.0" AnchorPane.leftAnchor="325.0" />
+      <Text layoutX="177.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Name" AnchorPane.leftAnchor="190.0" />
+      <Text layoutX="177.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host Name" AnchorPane.leftAnchor="190.0" />
+      <Text layoutX="177.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port Number" AnchorPane.leftAnchor="190.0" />
+      <Text layoutX="192.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Time" AnchorPane.leftAnchor="190.0" />
+      <Text fx:id="studentname" layoutX="333.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.rightAnchor="390.0" />
+      <Text fx:id="hostname" layoutX="333.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.rightAnchor="390.0" />
+      <Text fx:id="port" layoutX="333.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.rightAnchor="390.0" />
+      <Text fx:id="totaltime" layoutX="382.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.rightAnchor="390.0" />
+      <Text layoutX="188.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Puzzles" AnchorPane.leftAnchor="190.0" />
+      <Text layoutX="194.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Steps" AnchorPane.leftAnchor="190.0" />
+      <Text fx:id="puzzletotal" layoutX="382.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.rightAnchor="390.0" />
+      <Text fx:id="stepcount" layoutX="382.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.rightAnchor="390.0" />
    </children>
 </AnchorPane>

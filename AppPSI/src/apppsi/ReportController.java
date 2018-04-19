@@ -31,40 +31,35 @@ public class ReportController extends MainController implements Initializable {
     private Text port;
     @FXML
     private Text totaltime;
-   
-    
-    private String stname,honame,pno,time;
-
-    public String getStname() {
-        return stname;
-    }
+    @FXML
+    private Text stepcount;
+    @FXML
+    private Text puzzletotal;
+    private String stname,honame,pno,time,stcount,totalpuzzle;
 
     public void setStname(String stname) {
         this.stname = stname;
-    }
-
-    public String getHoname() {
-        return honame;
     }
 
     public void setHoname(String honame) {
         this.honame = honame;
     }
 
-    public String getPno() {
-        return pno;
-    }
 
     public void setPno(String pno) {
         this.pno = pno;
     }
 
-    public String getTime() {
-        return time;
-    }
-
     public void setTime(String time) {
         this.time = time;
+    }
+    
+    public void setStcount(String stcount) {
+        this.stcount = stcount;
+    }
+    
+    public void setTotalpuzzle(String totalpuzzle) {
+        this.totalpuzzle = totalpuzzle;
     }
     
     
@@ -88,6 +83,8 @@ public class ReportController extends MainController implements Initializable {
         hostname.setText(honame);
         port.setText(pno);
         totaltime.setText(time+" Minutes");
+        puzzletotal.setText(totalpuzzle);
+        stepcount.setText(stcount);
     }
     
 }

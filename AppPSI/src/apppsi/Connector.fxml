@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" fx:id="AnchorPane" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apppsi.ConnectorController">
+   <children>
+      <Label fx:id="port" layoutX="36.0" layoutY="42.0" text="Label" visible="false" />
+      <Label fx:id="hname" layoutX="123.0" layoutY="42.0" text="Label" visible="false" />
+      <Label fx:id="uname" layoutX="215.0" layoutY="42.0" text="Label" visible="false" />
+   </children>
+</AnchorPane>

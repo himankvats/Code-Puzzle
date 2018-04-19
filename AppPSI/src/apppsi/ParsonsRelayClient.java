@@ -197,7 +197,7 @@ public class ParsonsRelayClient implements ParsonsRelayClientInterface
 		}
     }  
 	
-	private void initClient(String hostName, int portNum, String serviceName, int maxConnectAttempts) throws MalformedURLException, RemoteException, NotBoundException
+	private void initClient(String hostName, int portNum, String serviceName, int maxConnectAttempts) throws MalformedURLException,ConnectException, RemoteException, NotBoundException
 	{
 		int connectAttempts = 0;
 		client = null;

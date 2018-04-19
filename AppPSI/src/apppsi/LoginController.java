@@ -5,8 +5,11 @@
  */
 package apppsi;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -41,12 +44,31 @@ public class LoginController extends MainController implements Initializable {
     @FXML
     private Button exitButton;
 
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loginButton.setDisable(true);
+        addconfig();
+    }
+    
+    public void addconfig(){
+        try{
+            Properties prop = new Properties();
+            String propFileName = "/Users/himankvats/NetBeansProjects/AppPSI/src/apppsi/config.properties";
+            InputStream is = new FileInputStream(propFileName);
+            prop.load(is);
+            System.out.println("value 1:" +prop.getProperty("requiredpuzzle"));
+            System.out.println("value 1:" +prop.getProperty("leastpuzzle"));
+            System.out.println("value 1:" +prop.getProperty("requiredtime"));
+            System.out.println("value 1:" +prop.getProperty("leasttime"));
+            
+
+        }catch (IOException ex) {
+		ex.printStackTrace();
+	}
     }
 
     @FXML
@@ -57,10 +79,11 @@ public class LoginController extends MainController implements Initializable {
 
     @FXML
     private void handleLoginButtonAction(ActionEvent event) {
+        System.out.println("EVENT value" +event);
         PuzzleController view2 = null;
         try{
             System.out.println("Loading view 2");
-        view2 = (PuzzleController) AppPSI.getNavigation().load(PuzzleController.URL_FXML);
+            view2 = (PuzzleController) AppPSI.getNavigation().load(PuzzleController.URL_FXML);
             System.out.println("Loaded view 2");
         }
         catch(Exception e){

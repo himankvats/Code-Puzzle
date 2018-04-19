@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apppsi.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apppsi.LoginController">
     <stylesheets>
         <URL value="@login.css" />
     </stylesheets>
@@ -17,25 +17,25 @@
             <Font name="Times New Roman Bold" size="30.0" />
          </font>
       </Label>
-      <Label layoutX="90.0" layoutY="119.0" text="User Name" textFill="#2c5b51" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="119.0">
+      <Label layoutX="189.0" layoutY="118.0" text="User Name" textFill="#2c5b51" AnchorPane.leftAnchor="190.0">
          <font>
             <Font name="Times New Roman Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="90.0" layoutY="174.0" text="Host Name" textFill="#2c5b51" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="174.0">
+      <Label layoutX="189.0" layoutY="175.0" text="Host Name" textFill="#2c5b51" AnchorPane.leftAnchor="190.0">
          <font>
             <Font name="Times New Roman Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="90.0" layoutY="220.0" text="Port Number" textFill="#2c5b51" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="220.0">
+      <Label layoutX="172.0" layoutY="221.0" text="Port Number" textFill="#2c5b51" AnchorPane.leftAnchor="190.0">
          <font>
             <Font name="Times New Roman Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="username" layoutX="232.0" layoutY="115.0" onKeyReleased="#handleKeyReleased" prefHeight="27.0" prefWidth="184.0" promptText="Enter Username" AnchorPane.leftAnchor="232.0" />
-      <TextField fx:id="hostname" layoutX="232.0" layoutY="170.0" onKeyReleased="#handleKeyReleased" prefHeight="27.0" prefWidth="184.0" promptText="Enter Host Name" AnchorPane.leftAnchor="232.0" />
-      <TextField fx:id="portnumber" layoutX="232.0" layoutY="216.0" onKeyReleased="#handleKeyReleased" prefHeight="27.0" prefWidth="184.0" promptText="Enter Port Number" AnchorPane.leftAnchor="232.0" />
-      <Button fx:id="loginButton" layoutX="103.0" layoutY="302.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" text="Login" AnchorPane.leftAnchor="125.0" />
-      <Button fx:id="exitButton" layoutX="416.0" layoutY="302.0" mnemonicParsing="false" onAction="#handleExitButtonAction" prefHeight="27.0" prefWidth="52.0" text="Exit" AnchorPane.rightAnchor="125.0" />
+      <TextField fx:id="username" layoutX="439.0" layoutY="115.0" onKeyReleased="#handleKeyReleased" prefHeight="27.0" prefWidth="184.0" promptText="Enter Username" AnchorPane.rightAnchor="190.0" />
+      <TextField fx:id="hostname" layoutX="426.0" layoutY="172.0" onKeyReleased="#handleKeyReleased" prefHeight="27.0" prefWidth="184.0" promptText="Enter Host Name" AnchorPane.rightAnchor="190.0" />
+      <TextField fx:id="portnumber" layoutX="459.0" layoutY="217.0" onKeyReleased="#handleKeyReleased" prefHeight="27.0" prefWidth="184.0" promptText="Enter Port Number" AnchorPane.rightAnchor="190.0" />
+      <Button fx:id="loginButton" layoutX="103.0" layoutY="302.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" text="Login" AnchorPane.leftAnchor="250.0" />
+      <Button fx:id="exitButton" layoutX="416.0" layoutY="302.0" mnemonicParsing="false" onAction="#handleExitButtonAction" prefHeight="27.0" prefWidth="52.0" text="Exit" AnchorPane.rightAnchor="250.0" />
    </children>
 </AnchorPane>
