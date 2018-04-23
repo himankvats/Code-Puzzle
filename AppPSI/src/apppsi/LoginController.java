@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package apppsi;
+package psifx;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -51,25 +51,10 @@ public class LoginController extends MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loginButton.setDisable(true);
-        addconfig();
+
     }
     
-    public void addconfig(){
-        try{
-            Properties prop = new Properties();
-            String propFileName = "/Users/himankvats/NetBeansProjects/AppPSI/src/apppsi/config.properties";
-            InputStream is = new FileInputStream(propFileName);
-            prop.load(is);
-            System.out.println("value 1:" +prop.getProperty("requiredpuzzle"));
-            System.out.println("value 1:" +prop.getProperty("leastpuzzle"));
-            System.out.println("value 1:" +prop.getProperty("requiredtime"));
-            System.out.println("value 1:" +prop.getProperty("leasttime"));
-            
-
-        }catch (IOException ex) {
-		ex.printStackTrace();
-	}
-    }
+    
 
     @FXML
     private void handleKeyReleased(KeyEvent event) {
